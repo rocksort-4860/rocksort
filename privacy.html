@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RockSort – Six Tasks a Day, Starting With the Most Important | iOS</title>
+<meta name="description" content="Write six tasks a day and start with the most important one. A local-first iOS to-do app: no ads, no tracking, your data stays on your iPhone.">
+<meta name="theme-color" content="#F2F4EF">
+<meta property="og:title" content="RockSort – Six Tasks a Day, Starting With the Most Important">
+<meta property="og:description" content="Sort your day by importance and urgency, then do just six things. No ads, no tracking, everything stays local. Coming soon to the App Store.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 108 30'%3E%3Crect x='0' y='6' width='22' height='20' rx='8' fill='%232F6B4E'/%3E%3Crect x='26' y='10' width='18' height='16' rx='7' fill='%2316211B'/%3E%3Crect x='48' y='13' width='15' height='13' rx='6' fill='%2316211B'/%3E%3Crect x='67' y='16' width='12' height='10' rx='5' fill='%2316211B'/%3E%3Crect x='83' y='18' width='10' height='8' rx='4' fill='%2316211B'/%3E%3Crect x='97' y='20' width='8' height='6' rx='3' fill='%2316211B'/%3E%3C/svg%3E">
+<!-- Web fonts: hosted mirror, kept as a progressive enhancement only. -->
+<!-- Western faces lead the stack so text renders in system type even if this request fails; CJK faces remain as fallback. -->
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<!-- Platform SDK: iOS device frame (version-locked CDN direct reference, no SRI) -->
+<script src="https://unpkg.com/@lark-apaas/coding-registry-buildless@0.1.22/scripts/ios-frame.js"></script>
+<style>
+/* ============================================================
+   RockSort · Overseas landing page
+   Visual direction: paper-light base + evergreen accent + "sorting stones" signature motif
+   ============================================================ */
+:root{
+  --paper:      #F2F4EF;
+  --paper-deep: #E9ECE4;
+  --card:       #FFFFFF;
+  --ink:        #16211B;
+  --ink-soft:   #45514A;
+  --ink-faint:  #6C766F;
+  --line:       rgba(22,33,27,.13);
+  --line-soft:  rgba(22,33,27,.08);
+  --accent:     #2F6B4E;
+  --accent-deep:#224C38;
+  --accent-soft:rgba(47,107,78,.10);
+  --gold:       #B97B2E;
+  --serif: 'Inter','SF Pro Display',-apple-system,'Segoe UI',Roboto,'Helvetica Neue','Noto Serif SC','Songti SC',STSong,serif;
+  --sans:  'Inter','SF Pro Display',-apple-system,'Segoe UI',Roboto,'Helvetica Neue','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',system-ui,sans-serif;
+  --container: 1120px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  font-weight:400;
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+::selection{background:var(--accent);color:#fff}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button,a.btn{font-family:inherit}
+
+.container{max-width:var(--container);margin:0 auto;padding:0 28px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent);
+}
+.eyebrow::before{content:"";width:26px;height:1.5px;background:var(--accent)}
+.section{padding:104px 0}
+.section-title{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(28px,3.4vw,40px);
+  line-height:1.3;letter-spacing:.01em;
+  margin:18px 0 20px;
+}
+.section-sub{max-width:640px;color:var(--ink-soft);font-size:16px;font-weight:300}
+.hairline{border:0;border-top:1px solid var(--line)}
+
+/* ---- Buttons ---- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:48px;padding:0 26px;border-radius:999px;
+  font-size:15px;font-weight:600;letter-spacing:.02em;
+  border:1px solid transparent;cursor:pointer;transition:all .18s ease;
+  white-space:nowrap;
+}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-deep);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn-light{background:#fff;color:var(--ink)}
+.btn-light:hover{background:var(--paper-deep)}
+.btn svg{flex-shrink:0}
+
+/* ---- Top navigation ---- */
+.site-header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(242,244,239,.86);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:17px;letter-spacing:.01em}
+.brand .brand-name{font-family:var(--serif);font-weight:900;font-size:18px}
+.brand .brand-sub{font-size:11px;font-weight:500;color:var(--ink-faint);letter-spacing:.14em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:34px;list-style:none}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--ink-soft);transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{display:flex;align-items:center;gap:14px}
+.nav .btn{min-height:42px;padding:0 22px;font-size:14px}
+
+/* ---- Hero ---- */
+.hero{
+  position:relative;
+  padding:96px 0 104px;
+  overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(560px 420px at 82% 12%, rgba(47,107,78,.10), transparent 65%),
+    radial-gradient(480px 380px at 6% 88%, rgba(47,107,78,.07), transparent 60%);
+}
+.hero-grid{
+  position:relative;
+  display:grid;grid-template-columns:1.05fr .95fr;
+  gap:64px;align-items:center;
+}
+.hero h1{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(34px,4.6vw,54px);
+  line-height:1.24;letter-spacing:.015em;
+  margin:22px 0 24px;
+}
+.hero h1 em{
+  font-style:normal;color:var(--accent);
+  border-bottom:3px solid var(--accent-soft);
+  padding-bottom:2px;
+}
+.hero-sub{
+  font-size:17px;font-weight:300;color:var(--ink-soft);
+  max-width:520px;margin-bottom:34px;
+}
+.hero-cta{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hero-trust{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-top:26px;font-size:13.5px;color:var(--ink-faint);
+}
+.hero-trust .dot{width:3px;height:3px;border-radius:50%;background:var(--ink-faint);opacity:.6;margin:0 6px}
+
+/* Hero phone mockup */
+.hero-visual{position:relative;display:flex;flex-direction:column;align-items:center}
+.phone-wrap{position:relative;z-index:2;filter:drop-shadow(0 30px 50px rgba(22,33,27,.18))}
+.phone-inner{
+  height:100%;display:flex;flex-direction:column;
+  padding-top:var(--ios-safe-top, 54px);
+  padding-bottom:var(--ios-safe-bottom, 12px);
+  box-sizing:border-box;
+  background:#F2F2F7;
+}
+.phone-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 28px 6px;
+}
+.phone-date{font-size:12px;color:var(--ink-faint);font-weight:500}
+.phone-title{font-family:var(--serif);font-weight:900;font-size:24px;color:var(--ink);margin-top:2px}
+.phone-ring{
+  position:relative;
+  width:46px;height:46px;border-radius:50%;flex-shrink:0;
+  background:conic-gradient(var(--accent) 0 300deg, #DDE3DA 300deg 360deg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:var(--ink);
+}
+.phone-ring::before{content:"";position:absolute;width:38px;height:38px;border-radius:50%;background:#F2F2F7}
+.phone-ring span{position:relative;font-size:12.5px;font-weight:700}
+.phone-list{margin-top:6px}
+.phone-note{
+  margin:14px 28px 0;padding:12px 16px;border-radius:16px;
+  background:var(--accent-soft);color:var(--accent-deep);
+  font-size:13px;font-weight:500;
+  display:flex;align-items:center;gap:8px;
+}
+.hero-caption{
+  margin-top:22px;font-size:12.5px;color:var(--ink-faint);
+  display:flex;align-items:center;gap:8px;
+}
+.floating-card{
+  position:absolute;z-index:3;
+  right:-18px;bottom:64px;
+  background:#fff;border:1px solid var(--line-soft);
+  border-radius:18px;padding:14px 18px;
+  box-shadow:0 18px 40px rgba(22,33,27,.14);
+  display:flex;align-items:center;gap:12px;
+  animation:float 5.5s ease-in-out infinite;
+}
+.floating-card .fc-title{font-size:13.5px;font-weight:700;color:var(--ink)}
+.floating-card .fc-sub{font-size:11.5px;color:var(--ink-faint);margin-top:1px}
+.floating-card .fc-icon{
+  width:38px;height:38px;border-radius:12px;flex-shrink:0;
+  background:var(--accent);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+/* ---- Philosophy: the three daily disciplines ---- */
+.principles{background:var(--card);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:56px}
+.step{
+  padding:8px 44px 8px 0;position:relative;
+}
+.step + .step{padding-left:44px;border-left:1px solid var(--line)}
+.step-num{
+  font-family:var(--serif);font-weight:900;font-size:56px;line-height:1;
+  color:transparent;-webkit-text-stroke:1.5px var(--accent);
+  display:block;margin-bottom:20px;
+}
+.step h3{font-family:var(--serif);font-weight:700;font-size:21px;margin-bottom:10px}
+.step p{font-size:14.5px;font-weight:300;color:var(--ink-soft)}
+.step-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:16px;font-size:12px;font-weight:600;color:var(--accent-deep);
+  background:var(--accent-soft);padding:5px 12px;border-radius:999px;
+}
+
+/* ---- Features ---- */
+.features-head{display:flex;flex-direction:column;align-items:flex-start}
+.feature-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:22px;margin-top:52px;
+}
+.feature-card{
+  background:var(--card);
+  border:1px solid var(--line-soft);border-radius:22px;
+  padding:34px 30px 32px;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+.feature-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(47,107,78,.35);
+  box-shadow:0 20px 44px rgba(22,33,27,.08);
+}
+.feature-icon{
+  width:48px;height:48px;border-radius:14px;
+  background:var(--accent-soft);color:var(--accent-deep);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:22px;
+}
+.feature-card h3{font-family:var(--serif);font-weight:700;font-size:18.5px;margin-bottom:8px}
+.feature-card p{font-size:14px;font-weight:300;color:var(--ink-soft)}
+
+/* ---- Pricing ---- */
+.pricing{background:var(--card);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.pricing-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:18px;margin-top:52px;align-items:stretch;
+}
+.plan{
+  position:relative;
+  background:var(--paper);
+  border:1px solid var(--line-soft);border-radius:22px;
+  padding:32px 26px 28px;
+  display:flex;flex-direction:column;
+}
+.plan.featured{
+  background:#fff;border:1.5px solid var(--accent);
+  box-shadow:0 24px 48px rgba(47,107,78,.12);
+}
+.plan-badge{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  background:var(--accent);color:#fff;
+  font-size:11.5px;font-weight:700;letter-spacing:.06em;
+  padding:5px 14px;border-radius:999px;white-space:nowrap;
+}
+.plan-name{font-size:14px;font-weight:700;color:var(--ink-soft);letter-spacing:.04em}
+.plan-price{
+  font-family:var(--serif);font-weight:900;
+  font-size:40px;line-height:1.15;margin:14px 0 2px;
+}
+.plan-price small{font-size:15px;font-weight:600;color:var(--ink-faint);margin-left:2px}
+.plan-per{font-size:12.5px;color:var(--ink-faint);margin-bottom:22px}
+.plan ul{list-style:none;margin:0 0 26px;display:flex;flex-direction:column;gap:10px;flex:1}
+.plan li{
+  display:flex;gap:9px;align-items:flex-start;
+  font-size:13.5px;color:var(--ink-soft);font-weight:400;
+}
+.plan li svg{flex-shrink:0;margin-top:4px;color:var(--accent)}
+.plan .btn{width:100%}
+.pricing-note{
+  margin-top:26px;font-size:13px;color:var(--ink-faint);
+  display:flex;align-items:center;gap:8px;
+}
+
+/* ---- App Store CTA band ---- */
+.cta-band{
+  background:var(--ink);color:var(--paper);
+  padding:96px 0;
+  position:relative;overflow:hidden;
+}
+.cta-band::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(520px 400px at 12% 20%, rgba(47,107,78,.42), transparent 62%),
+             radial-gradient(420px 360px at 90% 90%, rgba(47,107,78,.3), transparent 60%);
+}
+.cta-inner{position:relative;text-align:center;max-width:680px;margin:0 auto}
+.cta-band .eyebrow{color:#8FBFa4;justify-content:center}
+.cta-band .eyebrow::before{background:#8FBFa4}
+.cta-band h2{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(28px,3.6vw,42px);line-height:1.3;
+  margin:18px 0 18px;
+}
+.cta-band p{font-size:16px;font-weight:300;color:rgba(242,244,239,.72);margin-bottom:36px}
+.cta-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.cta-contact{
+  margin-top:44px;padding-top:34px;border-top:1px solid rgba(242,244,239,.14);
+  display:flex;justify-content:center;gap:44px;flex-wrap:wrap;
+  font-size:14.5px;color:rgba(242,244,239,.85);
+}
+.cta-contact a{display:inline-flex;align-items:center;gap:9px;transition:color .15s}
+.cta-contact a:hover{color:#fff}
+.cta-contact svg{color:#8FBFa4}
+
+/* ---- Footer ---- */
+.site-footer{
+  background:var(--ink);color:rgba(242,244,239,.7);
+  border-top:1px solid rgba(242,244,239,.1);
+  padding:40px 0 56px;font-size:13.5px;
+}
+.footer-row{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;
+}
+.footer-brand{display:inline-flex;align-items:center;gap:12px;color:var(--paper)}
+.footer-brand .brand-name{font-family:var(--serif);font-weight:700;font-size:16px}
+.footer-tagline{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8FBFa4}
+.footer-links{display:flex;gap:28px;align-items:center}
+.footer-links a{transition:color .15s}
+.footer-links a:hover{color:#fff}
+.footer-copy{margin-top:26px;font-size:12.5px;color:rgba(242,244,239,.45)}
+
+/* ---- Motion (respect reduced-motion preference) ---- */
+.fade-up{opacity:0;transform:translateY(18px);animation:fadeUp .7s ease forwards}
+.d1{animation-delay:.08s}.d2{animation-delay:.18s}.d3{animation-delay:.28s}.d4{animation-delay:.38s}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .fade-up,.floating-card{opacity:1;transform:none;animation:none}
+  *{transition:none!important}
+}
+
+/* ---- Responsive ---- */
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr;gap:72px}
+  .hero{padding:72px 0 88px}
+  .hero-visual{order:-1}
+  .feature-grid{grid-template-columns:repeat(2,1fr)}
+  .pricing-grid{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:1fr;gap:36px;margin-top:44px}
+  .step + .step{padding-left:0;border-left:0;border-top:1px solid var(--line);padding-top:36px}
+}
+@media (max-width:720px){
+  .nav-links{display:none}
+  .nav .btn{padding:0 16px}
+  .section{padding:80px 0}
+  .feature-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}
+  .floating-card{right:6px;bottom:52px}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= Top navigation ================= -->
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="#top" aria-label="RockSort home">
+      <svg width="34" height="12" viewBox="0 0 108 30" aria-hidden="true">
+        <rect x="0" y="6" width="22" height="20" rx="8" fill="#2F6B4E"/>
+        <rect x="26" y="10" width="18" height="16" rx="7" fill="#16211B"/>
+        <rect x="48" y="13" width="15" height="13" rx="6" fill="#16211B"/>
+        <rect x="67" y="16" width="12" height="10" rx="5" fill="#16211B"/>
+        <rect x="83" y="18" width="10" height="8" rx="4" fill="#16211B"/>
+        <rect x="97" y="20" width="8" height="6" rx="3" fill="#16211B"/>
+      </svg>
+      <span>
+        <span class="brand-name">RockSort</span>
+        <span class="brand-sub" style="display:block">Six a Day</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#principle">Philosophy</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <!-- App Store button placeholder — replace with the real App Store link after launch -->
+      <a class="btn btn-primary" href="#contact">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+        App Store
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= Hero ================= -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow fade-up">Eisenhower × Ivy Lee</span>
+        <h1 class="fade-up d1">Six tasks a day,<br>starting with the <em>most important</em> one.</h1>
+        <p class="hero-sub fade-up d2">
+          RockSort turns Eisenhower's importance × urgency weighting into one simple discipline:
+          write the list, sort it, then just do those six. No clutter, no guessing.
+        </p>
+        <div class="hero-cta fade-up d3">
+          <!-- App Store button placeholder — replace with the real App Store link after launch -->
+          <a class="btn btn-primary" href="#contact" aria-label="RockSort coming soon to the App Store">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+            Coming soon to the App Store
+          </a>
+          <a class="btn btn-ghost" href="mailto:hello@rocksortapp.com?subject=RockSort%20launch%20notification">Notify me at launch</a>
+        </div>
+        <div class="hero-trust fade-up d4">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          No ads<span class="dot"></span>No tracking<span class="dot"></span>Your data stays on your device
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="phone-wrap fade-up d2">
+          <ios-device width="360" height="736">
+            <div class="phone-inner">
+              <ios-status-bar time="9:41"></ios-status-bar>
+              <div class="phone-head">
+                <div>
+                  <div class="phone-date">Today · Start with #1</div>
+                  <div class="phone-title">Six a Day</div>
+                </div>
+                <div class="phone-ring" role="img" aria-label="5 of 6 tasks done">
+                  <span>5/6</span>
+                </div>
+              </div>
+              <ios-list header="Sorted by weight" class="phone-list">
+                <ios-list-row title="Sign off on the Q4 marketing budget" detail="Most important · Do first" icon="#2F6B4E"></ios-list-row>
+                <ios-list-row title="Reply to the design agency emails" detail="Important 4 · Urgent 3" icon="#5B8A70"></ios-list-row>
+                <ios-list-row title="Finish the weekly review before noon" detail="Important 3 · Urgent 3" icon="#84A694"></ios-list-row>
+                <ios-list-row title="Call the new vendor about pricing" detail="Important 2 · Urgent 2" icon="#A9BEAF"></ios-list-row>
+                <ios-list-row title="Tidy up the shared team drive" detail="Important 1 · Urgent 2" icon="#C9D7CD" is-last></ios-list-row>
+              </ios-list>
+              <div class="phone-note">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                The sixth slot stays blank: a 30-minute walk to reset
+              </div>
+            </div>
+          </ios-device>
+        </div>
+        <div class="floating-card" aria-hidden="true">
+          <div class="fc-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+          </div>
+          <div>
+            <div class="fc-title">Weekly streak · 83% completed</div>
+            <div class="fc-sub">Share it in one tap and keep each other accountable.</div>
+          </div>
+        </div>
+        <p class="hero-caption">Interface shown for illustration only.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Philosophy: three daily disciplines ================= -->
+  <section class="principles" id="principle">
+    <div class="container section">
+      <span class="eyebrow">Philosophy</span>
+      <h2 class="section-title">Make "most important first" a discipline you can actually keep</h2>
+      <p class="section-sub">No willpower required — just one routine you can repeat. Three minutes a day, and the day tilts toward what matters.</p>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <h3>Write it down</h3>
+          <p>Only six tasks today, and once the list is full, that is it. The moment it is written down, most of the noise has already been filtered out.</p>
+          <span class="step-tag">Ivy Lee · Six tasks a day</span>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <h3>Set the weights</h3>
+          <p>Tag each task for importance and urgency, and the list sorts itself. What you do first is decided by the rules — not by how you feel.</p>
+          <span class="step-tag">Eisenhower · Weighted sort</span>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <h3>Start with #1</h3>
+          <p>Finish the first before you open the second. Your best energy goes to the biggest rock, and everything else can wait until tomorrow.</p>
+          <span class="step-tag">Big Rocks · biggest first</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Features ================= -->
+  <section class="section" id="features">
+    <div class="container">
+      <span class="eyebrow">Features</span>
+      <h2 class="section-title">Trimmed down to the core — and the core, done properly</h2>
+      <p class="section-sub">No calendar, no team chat, no check-in community. RockSort answers exactly one question: what do I do first today?</p>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-2 3"/><path d="M5 7l2 3"/><path d="M19 17h-14"/><path d="M19 17l2-3"/><path d="M19 17l-2-3"/></svg>
+          </div>
+          <h3>Weighted sorting</h3>
+          <p>Score every task for importance and urgency, and RockSort orders the list for you — so you stop guessing what to do first.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12"/><path d="M9 12h12"/><path d="M9 18h12"/><circle cx="4" cy="6" r="1.4"/><circle cx="4" cy="12" r="1.4"/><circle cx="4" cy="18" r="1.4"/></svg>
+          </div>
+          <h3>Six a day, then stop</h3>
+          <p>The list caps out at six. A smaller list means your attention finally stops being diluted across twenty open tabs.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V8"/><path d="M4 8l10-5v13"/><path d="M14 3l6 3v13l-6-3"/><path d="M4 21h16"/></svg>
+          </div>
+          <h3>Start with the biggest rock</h3>
+          <p>Finish the first task before opening the second. Your best energy goes to the work that matters, not the work that is easiest.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg>
+          </div>
+          <h3>Weekly review</h3>
+          <p>RockSort keeps the score for you. See how the week actually went, share it in one tap, and stay honest about it.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3>Local and private</h3>
+          <p>Everything lives on your iPhone. Nothing is uploaded, nothing is tracked, and deleting the app leaves nothing behind.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg>
+          </div>
+          <h3>Deliberately minimal</h3>
+          <p>No ads, no social feed, no extra buttons. Open it, write the list, start the first task.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Pricing ================= -->
+  <section class="pricing" id="pricing">
+    <div class="container section">
+      <span class="eyebrow">Pricing</span>
+      <h2 class="section-title">Simple, transparent pricing</h2>
+      <p class="section-sub">The core routine is free forever. Pro only unlocks the advanced features — still no ads, and your data is never sold.</p>
+      <!-- App Store button placeholder — replace with the real App Store link after launch -->
+      <div class="pricing-grid">
+        <article class="plan">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">$0<small>/ forever</small></div>
+          <div class="plan-per">The core six-task routine</div>
+          <ul>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Six-task daily list</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Basic weighted sorting</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Local storage · zero ads</li>
+          </ul>
+          <a class="btn btn-ghost" href="#contact">Download for free</a>
+        </article>
+        <article class="plan">
+          <div class="plan-name">Monthly</div>
+          <div class="plan-price">$3.99<small>/ month</small></div>
+          <div class="plan-per">Most flexible · cancel anytime</div>
+          <ul>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Every Pro feature</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Advanced sorting options</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Weekly review and sharing</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Annual goals</li>
+          </ul>
+          <a class="btn btn-ghost" href="#contact">Subscribe monthly</a>
+        </article>
+        <article class="plan featured">
+          <span class="plan-badge">Most popular</span>
+          <div class="plan-name">Yearly</div>
+          <div class="plan-price">$29.99<small>/ year</small></div>
+          <div class="plan-per">About $2.50 a month · saves $17.89 a year</div>
+          <ul>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Every Pro feature</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Advanced sorting options</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Weekly review and sharing</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Annual goals</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Every new feature after launch</li>
+          </ul>
+          <a class="btn btn-primary" href="#contact">Subscribe yearly</a>
+        </article>
+        <article class="plan">
+          <div class="plan-name">Lifetime</div>
+          <div class="plan-price">$69.99<small>/ once</small></div>
+          <div class="plan-per">One payment. Yours for good.</div>
+          <ul>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Every Pro feature</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>All future updates, forever</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Supports one independent developer</li>
+          </ul>
+          <a class="btn btn-ghost" href="#contact">Buy once, own forever</a>
+        </article>
+      </div>
+      <p class="pricing-note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+        Monthly and Yearly include a 7-day free trial, and you can cancel anytime. Prices shown in USD, actual price may vary by region based on App Store local currency.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= App Store CTA band ================= -->
+  <section class="cta-band" id="contact">
+    <div class="container cta-inner">
+      <span class="eyebrow">iOS · Coming soon</span>
+      <h2>Want to get it first?</h2>
+      <p>RockSort is on its way to the App Store. Leave your email and we will tell you the moment it goes live.</p>
+      <div class="cta-actions">
+        <!-- App Store button placeholder — replace with the real App Store link after launch -->
+        <a class="btn btn-light" href="mailto:hello@rocksortapp.com?subject=RockSort%20launch%20notification">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 7l9 6 9-6"/></svg>
+          Email me at launch
+        </a>
+      </div>
+      <div class="cta-contact">
+        <a href="mailto:hello@rocksortapp.com">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 7l9 6 9-6"/></svg>
+          hello@rocksortapp.com
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= Footer ================= -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-row">
+      <a class="footer-brand" href="#top">
+        <svg width="34" height="12" viewBox="0 0 108 30" aria-hidden="true">
+          <rect x="0" y="6" width="22" height="20" rx="8" fill="#2F6B4E"/>
+          <rect x="26" y="10" width="18" height="16" rx="7" fill="#F2F4EF"/>
+          <rect x="48" y="13" width="15" height="13" rx="6" fill="#F2F4EF"/>
+          <rect x="67" y="16" width="12" height="10" rx="5" fill="#F2F4EF"/>
+          <rect x="83" y="18" width="10" height="8" rx="4" fill="#F2F4EF"/>
+          <rect x="97" y="20" width="8" height="6" rx="3" fill="#F2F4EF"/>
+        </svg>
+        <span class="brand-name">RockSort</span>
+      </a>
+      <span class="footer-tagline">Prioritize · Execute · Achieve</span>
+    </div>
+    <div class="footer-copy">
+      © 2026 RockSort. Local‑first, privacy‑first. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
