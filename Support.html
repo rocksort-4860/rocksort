@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support &amp; Contact · RockSort</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='5' fill='%232d7a6b'/><rect x='6' y='13' width='3.5' height='4.5' rx='1.2' fill='%23fff'/><rect x='10.2' y='9.5' width='3.5' height='8' rx='1.2' fill='%23fff'/><rect x='14.4' y='6.5' width='3.5' height='11' rx='1.2' fill='%23fff'/></svg>" />
+  <style>
+    html[data-lang="en"] .zh { display: none; }
+    html[data-lang="zh"] .en { display: none; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      max-width: 800px; margin: 0 auto; padding: 20px;
+      line-height: 1.6; background: #f1ede6; color: #2a2a2a;
+      transition: background-color .25s ease, color .25s ease;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: #1c1b19; color: #ebe8e2; }
+      a { color: #7fc0b0 !important; }
+      .lang-switch button { background: #4a9c8a !important; }
+      .privacy-banner { background: rgba(74,156,138,0.14) !important; border-color: rgba(74,156,138,.28) !important; color: #7fc0b0 !important; }
+      .privacy-banner h2 { color: #7fc0b0 !important; }
+    }
+    nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid rgba(0,0,0,.1); padding-bottom: 15px; }
+    @media (prefers-color-scheme: dark) { nav { border-bottom-color: rgba(255,255,255,.1); } }
+    .nav-right { display: flex; gap: 20px; align-items: center; }
+    .links a { margin-right: 15px; text-decoration: none; color: #2d7a6b; font-size: 14px; }
+    .links a:hover { text-decoration: underline; }
+    .lang-switch button { background: #2d7a6b; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 6px; font-size: 13px; margin-left: 5px; }
+    .lang-switch button:hover { opacity: 0.85; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; }
+    .logo svg { height: 28px; }
+    /* 手机窄屏：头部折两行 —— 上行 logo + 语言按钮，下行导航链接，避免拥挤错位 */
+    @media (max-width: 640px) {
+      nav { flex-wrap: wrap; }
+      .nav-right { display: contents; }
+      .logo { order: 1; }
+      .lang-switch { order: 2; margin-left: auto; }
+      .links { order: 3; flex: 1 1 100%; margin-top: 10px; }
+    }
+    h1 { font-size: 28px; margin-top: 30px; margin-bottom: 5px; }
+    h2 { font-size: 18px; margin-top: 30px; margin-bottom: 10px; }
+    .faq-q { font-size: 17px; margin: 22px 0 4px; font-weight: 600; }
+    p, li { font-size: 15px; margin-bottom: 10px; }
+    a { color: #2d7a6b; }
+    .updated { font-size: 13px; color: #8a8a85; margin-bottom: 20px; }
+    .privacy-banner { background: #e8f2ef; border: 1px solid rgba(45,122,107,.2); border-radius: 12px; padding: 20px; margin: 20px 0; }
+    .privacy-banner h2 { margin-top: 0; color: #245f54; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <span class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28">
+          <rect width="28" height="28" rx="6" fill="#2d7a6b"/>
+          <rect x="7" y="14" width="4" height="6.5" rx="1.4" fill="#ffffff"/>
+          <rect x="12" y="9.5" width="4" height="11" rx="1.4" fill="#ffffff"/>
+          <rect x="17" y="6" width="4" height="14.5" rx="1.4" fill="#ffffff"/>
+        </svg>
+        RockSort
+      </span>
+      <span class="nav-right">
+        <span class="links">
+          <a href="index.html" class="en">Privacy</a>
+          <a href="index.html" class="zh">隐私</a>
+          <a href="terms.html" class="en">Terms</a>
+          <a href="terms.html" class="zh">条款</a>
+          <a href="RockSort-Support.html" class="en" aria-current="page">Support</a>
+          <a href="RockSort-Support.html" class="zh" aria-current="page">支持</a>
+        </span>
+        <span class="lang-switch">
+          <button data-lang="en">EN</button>
+          <button data-lang="zh">中文</button>
+        </span>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+    <h1 class="en">Support &amp; Contact</h1>
+    <h1 class="zh">支持与联系</h1>
+    <p class="updated en">Last updated: October 30, 2026</p>
+    <p class="updated zh">最后更新：2026 年 10 月 30 日</p>
+    <p class="updated en">We're a small, focused personal project and reply to every email carefully.</p>
+    <p class="updated zh">我们是一个小而专注的个人项目，会认真回复每一封邮件。</p>
+
+    <div class="privacy-banner">
+      <h2 class="en">Having a problem? Write to us first</h2>
+      <h2 class="zh">遇到问题？先写信给我们</h2>
+      <p class="en">Email: <a href="mailto:onesolve@foxmail.com">onesolve@foxmail.com</a></p>
+      <p class="zh">邮箱：<a href="mailto:onesolve@foxmail.com">onesolve@foxmail.com</a></p>
+      <p class="en" style="margin-bottom:0">To help us resolve your issue faster, please include your <strong>App version</strong> and <strong>device model</strong>.</p>
+      <p class="zh" style="margin-bottom:0">为加快处理，请在邮件中注明你的 <strong>App 版本号</strong> 与 <strong>设备型号</strong>。</p>
+    </div>
+
+    <h2 class="en">Frequently asked questions</h2>
+    <h2 class="zh">常见问题</h2>
+
+    <h3 class="faq-q en">Q: How do I restore my Pro purchase?</h3>
+    <h3 class="faq-q zh">Q：如何恢复已购买的 Pro 权益？</h3>
+    <p class="en">Open the Pro screen in the App and tap <strong>“Restore Purchase”</strong>. The entitlement is restored through your Apple Account — you do not need to pay again.</p>
+    <p class="zh">在 App 内进入「Pro / 专业版」页面，点击 <strong>「恢复购买」</strong>。权益会通过你的 Apple 账户恢复，无需重复付费。</p>
+
+    <h3 class="faq-q en">Q: How do I manage or cancel my subscription?</h3>
+    <h3 class="faq-q zh">Q：如何管理或取消订阅？</h3>
+    <p class="en">Subscriptions are managed by Apple. Go to iOS <strong>Settings → [your Apple ID] → Subscriptions</strong> to view, renew, or cancel at any time. Cancellation stops future renewals; it does not refund the current period already paid.</p>
+    <p class="zh">订阅由 Apple 管理。请在 iOS「<strong>设置 → 你的 Apple ID → 订阅</strong>」中随时查看、续费或取消。取消仅阻止后续续费，已支付的当期费用不予退还。</p>
+
+    <h3 class="faq-q en">Q: Where is my data stored? Can it be lost?</h3>
+    <h3 class="faq-q zh">Q：我的数据保存在哪里？会丢失吗？</h3>
+    <p class="en">All your tasks and completion records are stored <strong>locally on your own device</strong>. We do not upload or collect them. Uninstalling the App, clearing local storage, or switching to a new device <strong>without a backup</strong> can make the data unrecoverable — please use the export feature and keep your own copy.</p>
+    <p class="zh">你的全部任务与完成记录都保存在<strong>你自己的设备本地</strong>，我们不会上传或收集。卸载应用、清除本地存储，或在<strong>没有备份的情况下</strong>更换设备，可能导致数据无法恢复——请使用导出功能并自行留存副本。</p>
+
+    <h3 class="faq-q en">Q: The App crashes or won't open</h3>
+    <h3 class="faq-q zh">Q：App 闪退或无法打开</h3>
+    <p class="en">Please email us with your <strong>device model</strong> and <strong>iOS version</strong>, and a short description of what you were doing when it happened. If possible, keep the App updated to the latest version from the App Store before reporting.</p>
+    <p class="zh">请发送邮件并附上<strong>设备型号</strong>与<strong>iOS 版本</strong>，并简单说明发生问题前你在做什么。报告前，请尽量把 App 更新到 App Store 上的最新版本。</p>
+
+    <h3 class="faq-q en">Q: Can I get a refund?</h3>
+    <h3 class="faq-q zh">Q：可以退款吗？</h3>
+    <p class="en">All in‑app purchases are settled through the Apple App Store, and refunds follow Apple policy. Apple handles all refund requests — you can submit one through <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>. We support Apple's decision.</p>
+    <p class="zh">所有应用内购买均通过 Apple App Store 结算，退款按 Apple 政策处理。退款申请由 Apple 统一处理，可通过 <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> 提交。我们对 Apple 作出的退款决定予以支持。</p>
+
+    <h3 class="faq-q en">Q: Will you use my data for ads?</h3>
+    <h3 class="faq-q zh">Q：你们会拿我的数据做广告吗？</h3>
+    <p class="en">No. RockSort shows no ads and we do not sell your data. Your task content stays on your device and is not uploaded anywhere. To process and restore purchases, our third‑party purchase service (RevenueCat, with Apple handling payment) receives limited purchase and technical information as described in the <a href="index.html">Privacy Policy</a> — not your task content, and not for advertising.</p>
+    <p class="zh">不会。RockSort 不投放广告，我们也不出售你的数据。你的任务内容保存在你的设备上，不会被上传到任何地方。为处理与恢复购买，我们的第三方内购服务（RevenueCat，支付由 Apple 处理）会接收有限的购买与技术信息，详见<a href="index.html">《隐私政策》</a>——不涉及你的任务内容，也不会用于广告。</p>
+
+    <h2 class="en">Contact us</h2>
+    <h2 class="zh">联系我们</h2>
+    <p class="en">For any other questions, suggestions, or partnership ideas, email us at <a href="mailto:onesolve@foxmail.com">onesolve@foxmail.com</a>.</p>
+    <p class="zh">任何其他问题、建议或合作意向，都欢迎邮件：<a href="mailto:onesolve@foxmail.com">onesolve@foxmail.com</a></p>
+    <p class="updated en">Response time: maintained personally, usually within 1–3 business days.</p>
+    <p class="updated zh">回复时间：个人维护，通常 1–3 个工作日内回复。</p>
+  </main>
+
+  <footer style="margin-top:50px; border-top:1px solid rgba(0,0,0,.1); padding-top:20px; font-size:14px; display:flex; flex-wrap:wrap; gap:15px;">
+    <span style="font-weight:bold;">RockSort</span>
+    <a href="index.html" class="en" style="color:#2d7a6b; text-decoration:none;">Privacy Policy</a>
+    <a href="index.html" class="zh" style="color:#2d7a6b; text-decoration:none;">隐私政策</a>
+    <a href="terms.html" class="en" style="color:#2d7a6b; text-decoration:none;">Terms of Service</a>
+    <a href="terms.html" class="zh" style="color:#2d7a6b; text-decoration:none;">使用条款</a>
+    <span class="copy en" style="margin-left:auto; color:#8a8a85;">© 2026 RockSort · Zhang Xinhua</span>
+    <span class="copy zh" style="margin-left:auto; color:#8a8a85;">© 2026 RockSort · 张新华</span>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      document.documentElement.setAttribute('data-lang', lang);
+      document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+      try { localStorage.setItem('rocksort_lang', lang); } catch(e) {}
+      document.title = lang === 'zh' ? '支持与联系 · RockSort' : 'Support & Contact · RockSort';
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var saved = 'en';
+      try { saved = localStorage.getItem('rocksort_lang') || 'en'; } catch(e) {}
+      setLang(saved);
+      document.querySelectorAll('.lang-switch button').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          setLang(this.getAttribute('data-lang'));
+        });
+      });
+    });
+  </script>
+</body>
+</html>
